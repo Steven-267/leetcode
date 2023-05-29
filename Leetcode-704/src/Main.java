@@ -20,6 +20,25 @@ public class Main {
             System.out.println(nums[i]);
         }
     }
+
+    /**
+     * 在做这道题的时候首先要确定区间的选择
+     * 是选择哪一种区间  对方法中的条件判断语句都存在不同
+     * 1.左闭右闭
+     * 其中因为left等于right是合法的
+     * 所以在while中可以写 left<=right
+     * 而在对mid进行赋值时候
+     * 因为右区间闭的 相当于已经判断过right这个索引的值
+     * 所以就直接跳过right  直接让mid = right - 1；
+     * 对于left也是同理 因为是左闭所以直接
+     * mid = left + 1；
+     * 2.左闭右开
+     * 因为left == right是不合法的
+     * 所以不能取到right
+     *
+     * 而在right中对mid定义时候
+     * 因为是开区间 所以直接使 mid = right即可
+     */
     public static int searchzbyb(int[] nums, int target) {
         int right = nums.length;
         int left = 0;
