@@ -74,3 +74,57 @@
   - 因为nums[i] > target 所以也是不需要再次判断 i 了 **但是右区间是不合法的**  所以就直接使right = i  这样才可以判断到i - 1 的数 如果使right = leng - 1 的话 就访问不到 leng - 1的值了 只能访问到leng - 2 的值 这样显然也是不合理的
   - 同理，left是闭区间 所以left = i + 1
 
+## 27（双指针
+
+![image-20230531121805272](C:/Users/Steven/AppData/Roaming/Typora/typora-user-images/image-20230531121805272.png)
+
+### 代码实现
+
+```java
+//暴力解法
+    public static int removeElement(int[] nums, int val) {
+        int count = nums.length;
+        for (int i = 0; i < count; i++) {
+            if(nums[i] == val){
+                for (int j = i + 1; j < count; j++){
+                    nums[j - 1] = nums[j];
+                }
+                i-- ;
+                count--;
+            }
+        }
+
+        return count;
+
+    }
+```
+
+```java
+  //使用双指针
+    public static int removeElement(int[] nums, int val) {
+        int slow = 0 ;
+        for (int fast = 0; fast < nums.length ; fast++) {
+            if(nums[fast] != val){
+                nums[slow] = nums[fast];
+                slow++ ;
+            }
+        }
+        return slow;
+    }
+```
+
+### 代码思路
+
+#### 暴力
+
+遍历每一个数，如果这个数和val一样的话就 就以这个数为开始后面每一位向前**覆盖**
+
+![img](https://code-thinking.cdn.bcebos.com/gifs/27.%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95.gif)
+
+再定义一个计数器，每次覆盖就 - - 这样就可以获得新的数组长度
+
+#### 双指针
+
+规定一个**快指针**和一个**慢指针** 
+
+❗❗❗❗❗❗❗❗慢指针 用来重新给数组进行赋值 **==快指针用来进行筛选==**❗❗❗❗❗❗❗❗❗
