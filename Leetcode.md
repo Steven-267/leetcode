@@ -128,3 +128,43 @@
 规定一个**快指针**和一个**慢指针** 
 
 ❗❗❗❗❗❗❗❗慢指针 用来重新给数组进行赋值 **==快指针用来进行筛选==**❗❗❗❗❗❗❗❗❗
+
+# 977（双指针
+
+![image-20230601105206140](C:/Users/Steven/AppData/Roaming/Typora/typora-user-images/image-20230601105206140.png)
+
+### 代码实现
+
+```java
+public int[] sortedSquares(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = (int) Math.pow(nums[i],2);
+        }
+       Arrays.sort(nums);
+        return nums;
+    }
+```
+
+```java
+  public int[] sortedSquares(int[] nums) {
+        int k = nums.length - 1;
+        int[] res =new int[nums.length];//易错点！！！
+        for (int i = 0, j = nums.length - 1; i <= j; ) {
+            if (Math.pow(nums[i], 2) > Math.pow(nums[j], 2)) {
+                res[k--] = (int) Math.pow(nums[i], 2);
+                i++;
+            } else {
+                res[k--] = (int) Math.pow(nums[j], 2);
+                j--;
+            }
+
+        }
+        return res;
+    }
+```
+
+### 代码思路
+
+因为题目要求是平方数  所以一个集合的最大值只能是在头或者尾（负数），所以通过每次比较头尾两个数的平方 把大的值存放到一个新的数组 接着在原数组里舍弃掉这个最大值（i++或者j++）
+
+其他也没什么要点!
