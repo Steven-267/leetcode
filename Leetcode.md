@@ -129,7 +129,7 @@
 
 ❗❗❗❗❗❗❗❗慢指针 用来重新给数组进行赋值 **==快指针用来进行筛选==**❗❗❗❗❗❗❗❗❗
 
-# 977（双指针
+## 977（双指针
 
 ![image-20230601105206140](C:/Users/Steven/AppData/Roaming/Typora/typora-user-images/image-20230601105206140.png)
 
@@ -168,3 +168,99 @@ public int[] sortedSquares(int[] nums) {
 因为题目要求是平方数  所以一个集合的最大值只能是在头或者尾（负数），所以通过每次比较头尾两个数的平方 把大的值存放到一个新的数组 接着在原数组里舍弃掉这个最大值（i++或者j++）
 
 其他也没什么要点!
+
+## 209(双指针
+
+![image-20230604222128061](C:/Users/Steven/AppData/Roaming/Typora/typora-user-images/image-20230604222128061.png)
+
+#### 代码实现
+
+##### 1.暴力：ac 15 没有用stream.add
+
+```java
+public int minSubArrayLen(int target, int[] nums) {
+        int k = nums.length;
+        int slow = 0;
+        int count = Integer.MAX_VALUE;
+        for (int i = 0; i < nums.length; i++) {
+            int sum = nums[slow];
+            int fast;
+            if(sum >= target){
+              return 1;
+            }else {
+                for (fast = slow +1; fast< nums.length; fast++) {
+                    sum += nums[fast];
+                    if(sum >= target && (fast-slow+1)<count){
+                        count=fast-slow + 1;
+                    }
+
+                }if(slow ==0 && fast == nums.length &&count == Integer.MAX_VALUE){
+                    return 0;
+                }
+
+            }
+            slow++;
+        }
+        return count;
+    }
+```
+
+##### 2.暴力优化：ac十八个 通过暴力加两层for加stream流的add方法
+
+```java
+   public int minSubArrayLen(int target, int[] nums) {
+        if(Arrays.stream(nums).sum()<target){
+            return 0;
+        }
+        int k = nums.length;
+        int slow = 0;
+        int count = Integer.MAX_VALUE;
+        for (int i = 0; i < nums.length; i++) {
+            int sum = nums[slow];
+            int fast;
+            if(sum >= target){
+              return 1;
+            }else {
+                for (fast = slow +1; fast< nums.length; fast++) {
+                    sum += nums[fast];
+                    if(sum >= target){
+                        if((fast-slow+1)<count) {
+                            count = fast - slow + 1;
+                        }
+                    }
+                }
+
+            }
+            slow++;
+        }
+        return count;
+    }
+```
+
+##### 3.==**写不出来的双指针滑动窗口法  真的很牛！！！**==
+
+```java
+   public int minSubArrayLen(int target, int[] nums) {
+     int left = 0;
+     int sum = 0;
+     int result = Integer.MAX_VALUE;
+        for (int right = 0; right < nums.length; right++) {
+            sum += nums[right];
+            while(sum>=target){
+                result = Math.min(result,right-left+1);
+                sum -= nums[left];
+                left++;
+            }
+        }
+        return result == Integer.MAX_VALUE? 0 : result;
+    }
+```
+
+#### 代码思路
+
+很难解释建议看视频https://www.bilibili.com/video/BV1tZ4y1q7XE/?spm_id_from=333.788&vd_source=0d2278f149b8b496ca34d34b8a956c02
+
+![209.长度最小的子数组](https://code-thinking.cdn.bcebos.com/gifs/209.%E9%95%BF%E5%BA%A6%E6%9C%80%E5%B0%8F%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84.gif)
+
+**不要以为for里放一个while就以为是O(n^2)啊， 主要是看每一个元素被操作的次数，每个元素在滑动窗后进来操作一次，出去操作一次，每个元素都是被操作两次，所以时间复杂度是 2 × n 也就是O(n)。**
+
