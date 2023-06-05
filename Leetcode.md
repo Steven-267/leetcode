@@ -1,10 +1,12 @@
 # Leetcode
 
-## 704（二分查找
+## 数组
+
+### 704（二分查找
 
 <img src="C:/Users/Steven/AppData/Roaming/Typora/typora-user-images/image-20230530125326365.png" alt="image-20230530125326365" style="zoom: 80%;" />
 
-### 代码实现
+#### 代码实现
 
 ```java
     public static int searchzbyb(int[] nums, int target) {
@@ -43,7 +45,7 @@
     }
 ```
 
-### 代码思路分析
+#### 代码思路分析
 
 - 首先要确定二分中左右区间的开闭情况  
 
@@ -74,11 +76,11 @@
   - 因为nums[i] > target 所以也是不需要再次判断 i 了 **但是右区间是不合法的**  所以就直接使right = i  这样才可以判断到i - 1 的数 如果使right = leng - 1 的话 就访问不到 leng - 1的值了 只能访问到leng - 2 的值 这样显然也是不合理的
   - 同理，left是闭区间 所以left = i + 1
 
-## 27（双指针
+### 27（双指针
 
 ![image-20230531121805272](C:/Users/Steven/AppData/Roaming/Typora/typora-user-images/image-20230531121805272.png)
 
-### 代码实现
+#### 代码实现
 
 ```java
 //暴力解法
@@ -113,9 +115,9 @@
     }
 ```
 
-### 代码思路
+#### 代码思路
 
-#### 暴力
+##### 暴力
 
 遍历每一个数，如果这个数和val一样的话就 就以这个数为开始后面每一位向前**覆盖**
 
@@ -123,17 +125,17 @@
 
 再定义一个计数器，每次覆盖就 - - 这样就可以获得新的数组长度
 
-#### 双指针
+##### 双指针
 
 规定一个**快指针**和一个**慢指针** 
 
 ❗❗❗❗❗❗❗❗慢指针 用来重新给数组进行赋值 **==快指针用来进行筛选==**❗❗❗❗❗❗❗❗❗
 
-## 977（双指针
+### 977（双指针
 
 ![image-20230601105206140](C:/Users/Steven/AppData/Roaming/Typora/typora-user-images/image-20230601105206140.png)
 
-### 代码实现
+#### 代码实现
 
 ```java
 public int[] sortedSquares(int[] nums) {
@@ -163,13 +165,13 @@ public int[] sortedSquares(int[] nums) {
     }
 ```
 
-### 代码思路
+#### 代码思路
 
 因为题目要求是平方数  所以一个集合的最大值只能是在头或者尾（负数），所以通过每次比较头尾两个数的平方 把大的值存放到一个新的数组 接着在原数组里舍弃掉这个最大值（i++或者j++）
 
 其他也没什么要点!
 
-## 209(双指针
+### 209(双指针-==**滑动窗口法**==⭐⭐
 
 ![image-20230604222128061](C:/Users/Steven/AppData/Roaming/Typora/typora-user-images/image-20230604222128061.png)
 
@@ -264,3 +266,60 @@ public int minSubArrayLen(int target, int[] nums) {
 
 **不要以为for里放一个while就以为是O(n^2)啊， 主要是看每一个元素被操作的次数，每个元素在滑动窗后进来操作一次，出去操作一次，每个元素都是被操作两次，所以时间复杂度是 2 × n 也就是O(n)。**
 
+### 59（边界处理问题
+
+![image-20230605093557989](C:/Users/Steven/AppData/Roaming/Typora/typora-user-images/image-20230605093557989.png)
+
+#### 代码实现
+
+```java
+ public static int[][] generateMatrix(int n) {
+        int loop = 0;
+        int start = 0;
+        int count = 1;
+        int i,j;
+        int[][] res = new int[n][n];
+        while(loop++ < n / 2){
+            //从左到右
+            for (j = start; j <n - loop ; j++) {
+                res[start][j] = count++;
+            }
+            //从上到下
+            for (i = start;i <  n - loop; i++){
+                res[i][j] = count++;
+            }
+            //从右到左
+            for (;j > start;j--){
+                res[i][j] = count++;
+            }
+            //从下到上
+            for (;i>start;i--){
+                res[i][j] = count++;
+            }
+            start++;
+        }if(n % 2 == 1){
+            res[start][start] = count;
+        }
+        return res;
+    }
+```
+
+#### 代码思路
+
+![img](https://code-thinking-1253855093.file.myqcloud.com/pics/20220922102236.png)
+
+通过分类 
+
+首先
+
+- 确定==**循环不变量原则**==❗❗❗ 每一行都通过 **左闭右开** 的的**规则**
+
+- 第一个循环用来确定有几圈
+  - 用n/2表示 但是奇数会有中间的一个单独存在
+- 在第一个循环里包含四个循环
+- 分别代表四条边的遍历
+- 每一圈都遍历四条边
+
+### 数组总结
+
+![img](https://code-thinking-1253855093.file.myqcloud.com/pics/%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93.png)
