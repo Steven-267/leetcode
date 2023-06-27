@@ -31,4 +31,5 @@ public class Main {
 //ggs
 //GS
 //gssss
-//ssg
+//ss
+//dontggs
