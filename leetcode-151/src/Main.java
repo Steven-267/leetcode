@@ -28,9 +28,3 @@ public class Main {
         }
     }
 }
-//ggs
-//GS
-//gssss
-//ss
-//dontggsggs
-//6.30 true！！！！ ggs
